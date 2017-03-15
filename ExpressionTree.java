@@ -122,15 +122,37 @@ class ExpressionTree {
         String exprWithVal = expr.replaceAll("x", variable);
         ExpressionTree f = new ExpressionTree(exprWithVal);
         double answer = 0;
-
+        String left, right, operation;
+        double leftVal, rightVal;
+        
         // base case: the most fundamental expression
-        if (this.getLeftChild().getLeftChild() == null && this.getRightChild().getLeftChild() == null) {
-            String left = f.getLeftChild().getValue();
-            double leftVal = Double.parseDouble(left);
-            String right = f.getRightChild().getValue();
-            double rightVal = Double.parseDouble(right);
+        if (this.getLeftChild().getLeftChild() == null && this.getRightChild() == null) {
+            left = f.getLeftChild().getValue();
+            leftVal = Double.parseDouble(left);
+            //right = f.getRightChild().getValue();
+            //rightVal = Double.parseDouble(right);
             //double rightVal = x;
-            String operation = f.getValue();
+            operation = f.getValue();
+
+            if (operation.equals("sin")) {
+                answer = Math.sin(leftVal);
+            }
+            else if (operation.equals("cos")) {
+                answer = Math.cos(leftVal);
+            }
+            else if (operation.charAt(0) == 'e') {
+                answer = Math.exp(leftVal);
+            }
+            return answer;
+        }
+
+        else if (this.getLeftChild().getLeftChild() == null && this.getRightChild().getLeftChild() == null) {
+            left = f.getLeftChild().getValue();
+            leftVal = Double.parseDouble(left);
+            right = f.getRightChild().getValue();
+            rightVal = Double.parseDouble(right);
+            //double rightVal = x;
+            operation = f.getValue();
 
             //System.out.println(operation);
             //double answer = 0;
@@ -149,25 +171,6 @@ class ExpressionTree {
 	        return answer;
         }
 
-        else if (this.getLeftChild().getLeftChild() == null && this.getRightChild() == null) {
-            String left = f.getLeftChild().getValue();
-            double leftVal = Double.parseDouble(left);
-            String right = f.getRightChild().getValue();
-            double rightVal = Double.parseDouble(right);
-            //double rightVal = x;
-            String operation = f.getValue();
-
-            if (operation.equals("sin")) {
-                answer = Math.sin(leftVal);
-            }
-            else if (operation.equals("cos")) {
-                answer = Math.cos(leftVal);
-            }
-            else if (operation.charAt(0) == 'e') {
-                answer = Math.exp(leftVal);
-            }
-            return answer;
-        }
 
         else {
             double leftBranchVal = 0;
@@ -217,6 +220,8 @@ class ExpressionTree {
         System.out.println(e.evaluate(1));
         System.out.println(e.differentiate()); */
 
+        /* samples: mult(minus(4,x),add(5,x)); x = 6;   Answer: -22.0
+        */
         ExpressionTree e = new ExpressionTree("mult(minus(4,x),add(5,x))");
         System.out.println(e);
         double x = 6;
