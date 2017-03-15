@@ -126,6 +126,10 @@ class ExpressionTree {
         double leftVal, rightVal;
         
         // base case: the most fundamental expression
+        if(this.getLeftChild() == null && this.getRightChild() == null) {
+            return Double.parseDouble(exprWithVal);
+        }
+
         if (this.getLeftChild().getLeftChild() == null && this.getRightChild() == null) {
             left = f.getLeftChild().getValue();
             leftVal = Double.parseDouble(left);
@@ -223,9 +227,29 @@ class ExpressionTree {
        original expression */
     ExpressionTree differentiate() {
 	// WRITE YOUR CODE HERE
+    ExpressionTree diff = this.deepCopy();
+    if (diff.getLeftChild() == null && diff.getRightChild() == null) {
+        String baseVal = diff.getValue();
+        
+        if (baseVal.equals("x")) {
+            diff.setValue("1");
+            return diff;
+        }
 
+        else {
+            try{
+                double value = Double.parseDouble(baseVal);
+                diff.setValue("0");
+                return diff;
+            }
+            catch(NumberFormatException e) {
+                return diff;
+            }
+        }
+
+    }
 	// AND CHANGE THIS RETURN STATEMENT                        
-        return null;
+        return diff;
     }
         
     
@@ -240,12 +264,13 @@ class ExpressionTree {
                     cos(x); x = 6;                      Answer: 0.96017028665
                     cos(add(5,x)); x = 6;               Answer: 0.00442569798
                     add(6,cos(add(5,x))); x = 6;        Answer: 6.00442569798*/
-        ExpressionTree e = new ExpressionTree("cos(mult(x,x))");
+        ExpressionTree e = new ExpressionTree("9");
         System.out.println(e);
         double x = 6;
-        System.out.println("Evaluated at x = " + x);
-        System.out.println(e.evaluate(x));
-        //System.out.println(Math.exp(5+2));
+        System.out.println("@ x = " + x);
+        System.out.println("Evaluated answer: " + e.evaluate(x));
+    
+        System.out.println("Differentiated answer: " + e.differentiate());
    
  }
 }
