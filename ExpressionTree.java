@@ -130,22 +130,30 @@ class ExpressionTree {
         //double rightVal = x;
 
         String operation = f.getValue();
+        //System.out.println(operation);
+        double answer = 0;
 
         if(operation.equals("add")) {
-            return leftVal + rightVal;
+            answer = leftVal + rightVal;
         }
         else if (operation.equals("minus")) {
-            return leftVal - rightVal;
+            answer = leftVal - rightVal;
         }
         else if (operation.equals("mult")) {
-            return leftVal * rightVal;
+            answer = leftVal * rightVal;
         }
-        /* else if (operation.equals("sin")) {
-            return leftVal - rightVal;
-        } */
+        else if (operation.equals("sin")) {
+            answer = Math.sin(leftVal + rightVal);
+        }
+        else if (operation.equals("cos")) {
+            answer = Math.cos(leftVal + rightVal);
+        }
+        else if (operation.charAt(0) == 'e') {
+            answer = Math.exp(leftVal + rightVal);
+        }
 
 	// AND CHANGE THIS RETURN STATEMENT
-	return 0;
+	return answer;
     }                                                 
 
     /* returns the root of a new expression tree representing the derivative of the
@@ -164,11 +172,12 @@ class ExpressionTree {
         System.out.println(e.evaluate(1));
         System.out.println(e.differentiate()); */
 
-        ExpressionTree e = new ExpressionTree("mult(5,x)");
+        ExpressionTree e = new ExpressionTree("exp(9,x)");
         System.out.println(e);
-        double x = 121;
+        double x = -14;
         System.out.println("Evaluated at x = " + x);
         System.out.println(e.evaluate(x));
+        //System.out.println(Math.exp(5+2));
    
  }
 }
