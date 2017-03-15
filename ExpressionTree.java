@@ -129,7 +129,7 @@ class ExpressionTree {
         if (this.getLeftChild().getLeftChild() == null && this.getRightChild() == null) {
             left = f.getLeftChild().getValue();
             leftVal = Double.parseDouble(left);
-            System.out.println("if: " + leftVal);
+            //System.out.println("if: " + leftVal);
             //right = f.getRightChild().getValue();
             //rightVal = Double.parseDouble(right);
             //double rightVal = x;
@@ -153,7 +153,7 @@ class ExpressionTree {
             right = f.getRightChild().getValue();
             rightVal = Double.parseDouble(right);
 
-            System.out.println("Else if: " + leftVal + "  " + rightVal);
+            //System.out.println("Else if: " + leftVal + "  " + rightVal);
             //double rightVal = x;
             operation = f.getValue();
 
@@ -185,7 +185,7 @@ class ExpressionTree {
                 leftBranchVal = this.getLeftChild().deepCopy().evaluate(x);
                 ExpressionTree leftCalc = new ExpressionTree("" + leftBranchVal);
                 this.setLeftChild(leftCalc);
-                System.out.println("Else: (left) " + leftCalc.getValue());
+                //System.out.println("Else: (left) " + leftCalc.getValue());
                 String toDo = this.getValue();
                 if (toDo.equals("cos")) {
                     return Math.cos(leftBranchVal);
@@ -208,7 +208,7 @@ class ExpressionTree {
                 rightBranchVal = this.getRightChild().deepCopy().evaluate(x);
                 ExpressionTree rightCalc = new ExpressionTree("" + rightBranchVal);
                 this.setRightChild(rightCalc);
-                System.out.println("Else: (right) " + rightCalc.getValue());
+                //System.out.println("Else: (right) " + rightCalc.getValue());
                 //this.getRightChild().setValue("" + branchVal);
                 //this.getRightChild().setLeftChild(null);
                 //this.getRightChild().setRightChild(null);
@@ -240,7 +240,7 @@ class ExpressionTree {
                     cos(x); x = 6;                      Answer: 0.96017028665
                     cos(add(5,x)); x = 6;               Answer: 0.00442569798
                     add(6,cos(add(5,x))); x = 6;        Answer: 6.00442569798*/
-        ExpressionTree e = new ExpressionTree("exp(add(6,cos(add(5,x))))");
+        ExpressionTree e = new ExpressionTree("cos(mult(x,x))");
         System.out.println(e);
         double x = 6;
         System.out.println("Evaluated at x = " + x);
