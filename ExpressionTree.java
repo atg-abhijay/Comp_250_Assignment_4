@@ -114,6 +114,28 @@ class ExpressionTree {
     double evaluate(double x) {
 	// WRITE YOUR CODE HERE
 
+        String left = this.getLeftChild().getValue();
+        double leftVal = Double.parseDouble(left);
+
+        String right = this.getRightChild().getValue();
+        //double rightVal = Double.parseDouble(right);
+        double rightVal = x;
+
+        String operation = this.getValue();
+
+        if(operation.equals("add")) {
+            return leftVal + rightVal;
+        }
+        else if (operation.equals("minus")) {
+            return leftVal - rightVal;
+        }
+        else if (operation.equals("mult")) {
+            return leftVal * rightVal;
+        }
+        /* else if (operation.equals("sin")) {
+            return leftVal - rightVal;
+        } */
+
 	// AND CHANGE THIS RETURN STATEMENT
 	return 0;
     }                                                 
@@ -129,10 +151,14 @@ class ExpressionTree {
         
     
     public static void main(String args[]) {
-        ExpressionTree e = new ExpressionTree("mult(add(2,x),cos(x))");
+        /* ExpressionTree e = new ExpressionTree("mult(add(2,x),cos(x))");
         System.out.println(e);
         System.out.println(e.evaluate(1));
-        System.out.println(e.differentiate());
+        System.out.println(e.differentiate()); */
+
+        ExpressionTree e = new ExpressionTree("add(5,x)");
+        System.out.println(e);
+        System.out.println(e.evaluate(94));
    
  }
 }
