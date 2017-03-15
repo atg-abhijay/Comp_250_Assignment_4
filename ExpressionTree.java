@@ -113,15 +113,23 @@ class ExpressionTree {
     // when x has a certain value
     double evaluate(double x) {
 	// WRITE YOUR CODE HERE
+        
+        /* we copy the string expresssion so
+            that we can replace all the characters 'x'
+            with the actual value of 'x' */ 
+        String expr = this.toString();
+        String variable = x + "";
+        String exprWithVal = expr.replaceAll("x", variable);
+        ExpressionTree f = new ExpressionTree(exprWithVal);
 
-        String left = this.getLeftChild().getValue();
+        String left = f.getLeftChild().getValue();
         double leftVal = Double.parseDouble(left);
 
-        String right = this.getRightChild().getValue();
-        //double rightVal = Double.parseDouble(right);
-        double rightVal = x;
+        String right = f.getRightChild().getValue();
+        double rightVal = Double.parseDouble(right);
+        //double rightVal = x;
 
-        String operation = this.getValue();
+        String operation = f.getValue();
 
         if(operation.equals("add")) {
             return leftVal + rightVal;
@@ -156,9 +164,11 @@ class ExpressionTree {
         System.out.println(e.evaluate(1));
         System.out.println(e.differentiate()); */
 
-        ExpressionTree e = new ExpressionTree("add(5,x)");
+        ExpressionTree e = new ExpressionTree("mult(5,x)");
         System.out.println(e);
-        System.out.println(e.evaluate(94));
+        double x = 121;
+        System.out.println("Evaluated at x = " + x);
+        System.out.println(e.evaluate(x));
    
  }
 }
