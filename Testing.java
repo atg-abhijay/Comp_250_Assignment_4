@@ -63,8 +63,8 @@ public class Testing {
         }
         System.out.println("Hooray! We are done!"); */
 
-        ExpressionTree f = new ExpressionTree("5(8(2,6(3,2)),4)");
-        ExpressionTree g = new ExpressionTree("5(4,8(6(3,2),2))");
+        ExpressionTree f = new ExpressionTree("5(8(2,6(3,2)),4)"); //5(8(2,6(3,2)),4)
+        ExpressionTree g = new ExpressionTree("5(4,8(6(3,2),2))"); //5(4,8(6(3,2),2))
         
         System.out.println("\n" + isomorphic(f,g));
 
@@ -74,19 +74,23 @@ public class Testing {
         System.out.println(f);
         System.out.println(g);
         
-        if (f.getLeftChild() == null && f.getRightChild() == null && g.getLeftChild() == null && g.getRightChild() == null) {
+        if (f.getLeftChild() == null || g.getLeftChild() == null) {
             if(!f.getValue().equals(g.getValue())) {
-                System.out.println("\nUnequal at top");
+                //System.out.println("\nUnequal at top");
                 return false;
             }
+            else {
+                return true;
+            }
         }
+
         boolean oneLevelF = false;
-        if (f.getLeftChild().getLeftChild() == null && f.getRightChild().getLeftChild() == null) {
+        if (f.getLeftChild().getLeftChild() == null) {
             oneLevelF = true;
         }
 
         boolean oneLevelG = false;
-        if (g.getLeftChild().getLeftChild() == null && g.getRightChild().getLeftChild() == null) {
+        if (g.getLeftChild().getLeftChild() == null) {
             oneLevelG = true;
         }
         if(oneLevelF && oneLevelG) {
@@ -100,7 +104,7 @@ public class Testing {
             boolean switched = fLeft.equals(gRight) && fRight.equals(gLeft);
             boolean same = fLeft.equals(gLeft) && fRight.equals(gRight);
             if(!(switched || same)) {
-                System.out.println("\nNot same/switched at a level");
+                //System.out.println("\nNeither same nor switched at a level");
                 return false;
             }
         }
@@ -109,19 +113,22 @@ public class Testing {
             ExpressionTree fLeftBranch = f.getLeftChild().deepCopy();
             ExpressionTree gLeftBranch = g.getLeftChild().deepCopy();
 
-            if (!isomorphic(fLeftBranch, gLeftBranch)) {
-                System.out.println("Left branches not isomorphic!");
-                return false;
-            }
             ExpressionTree fRightBranch = f.getRightChild().deepCopy();
             ExpressionTree gRightBranch = g.getRightChild().deepCopy();
 
-            if(!isomorphic(fRightBranch, gRightBranch)) {
-                System.out.println("Right branches not isomorphic!");
+            if (!(isomorphic(fLeftBranch, gLeftBranch) || isomorphic(fLeftBranch, gRightBranch))) {
+                //System.out.println("Left branches not isomorphic!");
+                return false;
+            }
+            
+
+            if(!(isomorphic(fRightBranch, gRightBranch) || isomorphic(fRightBranch, gLeftBranch))) {
+                //System.out.println("Right branches not isomorphic!");
                 return false;
             }
         }
 
+        System.out.println("\nYay!");
         return true;
     }
 }
