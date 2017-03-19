@@ -126,11 +126,11 @@ class ExpressionTree {
         double leftVal, rightVal;
         
         // base case: the most fundamental expression
-        if(this.getLeftChild() == null && this.getRightChild() == null) {
+        if(f.getLeftChild() == null && f.getRightChild() == null) {
             return Double.parseDouble(exprWithVal);
         }
 
-        if (this.getLeftChild().getLeftChild() == null && this.getRightChild() == null) {
+        if (f.getLeftChild().getLeftChild() == null && f.getRightChild() == null) {
             left = f.getLeftChild().getValue();
             leftVal = Double.parseDouble(left);
             //System.out.println("if: " + leftVal);
@@ -151,7 +151,7 @@ class ExpressionTree {
             return answer;
         }
 
-        else if (this.getLeftChild().getLeftChild() == null && this.getRightChild().getLeftChild() == null) {
+        else if (f.getLeftChild().getLeftChild() == null && f.getRightChild().getLeftChild() == null) {
             left = f.getLeftChild().getValue();
             leftVal = Double.parseDouble(left);
             right = f.getRightChild().getValue();
@@ -182,15 +182,15 @@ class ExpressionTree {
         else {
             double leftBranchVal = 0;
             double rightBranchVal = 0;
-            if(this.getLeftChild().getLeftChild() == null) {
-                leftBranchVal = Double.parseDouble(this.getLeftChild().getValue());
+            if(f.getLeftChild().getLeftChild() == null) {
+                leftBranchVal = Double.parseDouble(f.getLeftChild().getValue());
             }
             else {
-                leftBranchVal = this.getLeftChild().deepCopy().evaluate(x);
+                leftBranchVal = f.getLeftChild().deepCopy().evaluate(x);
                 ExpressionTree leftCalc = new ExpressionTree("" + leftBranchVal);
-                this.setLeftChild(leftCalc);
+                f.setLeftChild(leftCalc);
                 //System.out.println("Else: (left) " + leftCalc.getValue());
-                String toDo = this.getValue();
+                String toDo = f.getValue();
                 if (toDo.equals("cos")) {
                     return Math.cos(leftBranchVal);
                 }
@@ -205,20 +205,20 @@ class ExpressionTree {
                 //this.getLeftChild().setRightChild(null);
             }
 
-            if (this.getRightChild().getLeftChild() == null) {
-                rightBranchVal = Double.parseDouble(this.getRightChild().getValue());
+            if (f.getRightChild().getLeftChild() == null) {
+                rightBranchVal = Double.parseDouble(f.getRightChild().getValue());
             }
             else {
-                rightBranchVal = this.getRightChild().deepCopy().evaluate(x);
+                rightBranchVal = f.getRightChild().deepCopy().evaluate(x);
                 ExpressionTree rightCalc = new ExpressionTree("" + rightBranchVal);
-                this.setRightChild(rightCalc);
+                f.setRightChild(rightCalc);
                 //System.out.println("Else: (right) " + rightCalc.getValue());
                 //this.getRightChild().setValue("" + branchVal);
                 //this.getRightChild().setLeftChild(null);
                 //this.getRightChild().setRightChild(null);
             }
 
-            return this.evaluate(x);
+            return f.evaluate(x);
         }
         
     }                                                 
@@ -351,8 +351,9 @@ class ExpressionTree {
         ExpressionTree f = new ExpressionTree("mult(sin(x),mult(cos(x),exp(x)))");
         System.out.println(f);
         double x = 13.39664737826625;
-        ExpressionTree fdiff = f.differentiate();
+
         System.out.println("Evaluated answer: " + f.evaluate(x));
+        ExpressionTree fdiff = f.differentiate();
         System.out.println("Differentiated answer: " + fdiff);
         System.out.println("Evaluate diff. answer (@ x = " + x + ") : " + fdiff.evaluate(x));
    
