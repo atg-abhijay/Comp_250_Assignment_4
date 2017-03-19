@@ -116,7 +116,13 @@ class ExpressionTree {
         
         /* we copy the string expression so
             that we can replace all the characters 'x'
-            with the actual value of 'x' */ 
+            with the actual value of 'x'
+
+            Note: in doing so, we end up changing 'exp'
+            to e + value of 'x' + p, that is 'evaluep'
+
+            therefore we use exampleString.charAt(0) == 'e'
+            to see if the operation is exp or not */ 
         String expr = this.toString();
         String variable = x + "";
         String exprWithVal = expr.replaceAll("x", variable);
@@ -125,18 +131,28 @@ class ExpressionTree {
         String left, right, operation;
         double leftVal, rightVal;
         
-        // base case: the most fundamental expression
+        /* base case: the most fundamental expression - 
+            this is for cases like 'x' or
+            'c', where c is some constant */ 
         if(f.getLeftChild() == null && f.getRightChild() == null) {
             return Double.parseDouble(exprWithVal);
         }
 
+
+        /* this is used for sin, cos and exp - 
+                tree for sin      tree for cos      tree for exp
+                    sin                 cos             exp
+                     |                   |               |
+                     k                   k               k
+
+            where k is a number. 
+            k has no children and sin,cos,exp don't have any right children
+                    |                                          |
+                    |                                          |
+                    V                                          V        */  
         if (f.getLeftChild().getLeftChild() == null && f.getRightChild() == null) {
             left = f.getLeftChild().getValue();
             leftVal = Double.parseDouble(left);
-            //System.out.println("if: " + leftVal);
-            //right = f.getRightChild().getValue();
-            //rightVal = Double.parseDouble(right);
-            //double rightVal = x;
             operation = f.getValue();
 
             if (operation.equals("sin")) {
@@ -151,18 +167,24 @@ class ExpressionTree {
             return answer;
         }
 
+
+        /* this is used for add, minus and mult - 
+                tree for add        tree for minus      tree for mult
+                    +                   -                   *
+                  /   \               /   \               /   \
+                 k1   k2             k1   k2             k1   k2
+            
+            where k1 and k2 are 2 numbers
+            k1 and k2 have no children --------
+                                              |
+                                              V */
         else if (f.getLeftChild().getLeftChild() == null && f.getRightChild().getLeftChild() == null) {
             left = f.getLeftChild().getValue();
             leftVal = Double.parseDouble(left);
             right = f.getRightChild().getValue();
             rightVal = Double.parseDouble(right);
 
-            //System.out.println("Else if: " + leftVal + "  " + rightVal);
-            //double rightVal = x;
             operation = f.getValue();
-
-            //System.out.println(operation);
-            //double answer = 0;
 
             if(operation.equals("add")) {
                 answer = leftVal + rightVal;
@@ -174,14 +196,20 @@ class ExpressionTree {
                 answer = leftVal * rightVal;
             }
 
-	    // AND CHANGE THIS RETURN STATEMENT
 	        return answer;
         }
 
-
+        
+        /* this big else block forms 
+            the recursive part */
         else {
             double leftBranchVal = 0;
             double rightBranchVal = 0;
+
+            // EVALUATING LEFT BRANCH
+
+            /* if the child has no children, then
+                that means that it's a number */
             if(f.getLeftChild().getLeftChild() == null) {
                 leftBranchVal = Double.parseDouble(f.getLeftChild().getValue());
             }
@@ -189,7 +217,6 @@ class ExpressionTree {
                 leftBranchVal = f.getLeftChild().deepCopy().evaluate(x);
                 ExpressionTree leftCalc = new ExpressionTree("" + leftBranchVal);
                 f.setLeftChild(leftCalc);
-                //System.out.println("Else: (left) " + leftCalc.getValue());
                 String toDo = f.getValue();
                 if (toDo.equals("cos")) {
                     return Math.cos(leftBranchVal);
@@ -200,11 +227,12 @@ class ExpressionTree {
                 else if (toDo.charAt(0) == 'e') {
                     return Math.exp(leftBranchVal);
                 }
-                //this.getLeftChild().setValue("" + branchVal);
-                //this.getLeftChild().setLeftChild(null);
-                //this.getLeftChild().setRightChild(null);
             }
 
+            // EVALUATING RIGHT BRANCH
+
+            /* if the child has no children, then
+                that means that it's a number */
             if (f.getRightChild().getLeftChild() == null) {
                 rightBranchVal = Double.parseDouble(f.getRightChild().getValue());
             }
@@ -212,10 +240,6 @@ class ExpressionTree {
                 rightBranchVal = f.getRightChild().deepCopy().evaluate(x);
                 ExpressionTree rightCalc = new ExpressionTree("" + rightBranchVal);
                 f.setRightChild(rightCalc);
-                //System.out.println("Else: (right) " + rightCalc.getValue());
-                //this.getRightChild().setValue("" + branchVal);
-                //this.getRightChild().setLeftChild(null);
-                //this.getRightChild().setRightChild(null);
             }
 
             return f.evaluate(x);
@@ -237,7 +261,8 @@ class ExpressionTree {
                     c                               0
 
             where c is a constant */
-            
+        
+        // the node has no children
         if (diff.getLeftChild() == null && diff.getRightChild() == null) {
             String baseVal = diff.getValue();
         
@@ -248,6 +273,9 @@ class ExpressionTree {
 
             else {
                 try{
+                    /* if the string is parsable to a Double
+                        that means we have a number stored
+                        in the string */
                     double value = Double.parseDouble(baseVal);
                     diff.setValue("0");
                     return diff;
@@ -369,11 +397,11 @@ class ExpressionTree {
 
         /* this is the case for exp - 
             tree for exp      differentiated tree for exp
-            exp                         * 
-             |                        /   \
-            f(x)                     exp  f'(x)
-                                      |
-                                     f(x)
+                exp                         * 
+                 |                        /   \
+                f(x)                     exp  f'(x)
+                                          |
+                                        f(x)
             
             f'(x) denotes differentiation of f(x) */
 
@@ -390,16 +418,15 @@ class ExpressionTree {
         
     
     public static void main(String args[]) {
-        /* ExpressionTree e = new ExpressionTree("mult(add(2,x),cos(x))");
+        ExpressionTree e = new ExpressionTree("mult(add(2,x),cos(x))");
         System.out.println(e);
         System.out.println(e.evaluate(1));
-        System.out.println(e.differentiate()); */
+        System.out.println(e.differentiate());
 
         /* samples: mult(add(2,x),cos(x)); x = 6;       Answer: 7.6813622932
                     mult(minus(4,x),add(5,x)); x = 6;   Answer: -22.0
-                    //cos(x); x = 6;                      Answer: 0.96017028665
                     cos(add(5,x)); x = 6;               Answer: 0.00442569798
-                    add(6,cos(add(5,x))); x = 6;        Answer: 6.00442569798*/
+                    add(6,cos(add(5,x))); x = 6;        Answer: 6.00442569798 */
         /* String[] samples = {"mult(add(2,x),cos(x))", "mult(minus(4,x),add(5,x))", "cos(add(5,x))", "add(6,cos(add(5,x)))"};
         double x = 6;
         System.out.println("@ x = " + x);
@@ -407,7 +434,7 @@ class ExpressionTree {
             ExpressionTree e = new ExpressionTree(samples[i]);
             System.out.println(e);
             System.out.println("Evaluated answer: " + e.evaluate(x));
-        } */
+        }
         
         ExpressionTree f = new ExpressionTree("mult(sin(x),mult(cos(x),exp(x)))");
         System.out.println(f);
@@ -416,7 +443,7 @@ class ExpressionTree {
         System.out.println("Evaluated answer: " + f.evaluate(x));
         ExpressionTree fdiff = f.differentiate();
         System.out.println("Differentiated answer: " + fdiff);
-        System.out.println("Evaluate diff. answer (@ x = " + x + ") : " + fdiff.evaluate(x));
+        System.out.println("Evaluate diff. answer (@ x = " + x + ") : " + fdiff.evaluate(x)); */
    
  }
 }
