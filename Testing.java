@@ -65,7 +65,7 @@ public class Testing {
         System.out.println("Hooray! We are done!"); */
 
         Scanner reader = new Scanner(System.in);
-        ExpressionTree f = new ExpressionTree(reader.next()); //5(8(2,6(3,2)),4) , 5(4,8(6(3,2),2))
+        ExpressionTree f = new ExpressionTree(reader.next()); //6(5(8(2,6(3,2)),4),1) 6(1,5(4,8(6(3,2),2)))
         ExpressionTree g = new ExpressionTree(reader.next()); 
         
         System.out.println("\n" + isomorphic(f,g));
