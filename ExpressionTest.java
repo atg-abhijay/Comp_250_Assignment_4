@@ -15,13 +15,13 @@ public class ExpressionTest {
         // Make an array of Strings for each expression
         String[] exprToEval = {"mult(add(2,x),cos(x))", "add(7,4)", "add(7,x)", "add(x,7)", "minus(7,x)",
                                 "minus(x,9)", "minus(3,6)", "mult(x,37)", "mult(12,x)", "sin(x)", "cos(x)", "exp(x)",
-                                "exp(cos(mult(x,x)))", "mult(sin(x),mult(cos(x),exp(x)))"};
+                                "exp(cos(mult(x,x)))", "mult(sin(x),mult(cos(x),exp(x)))", "x", "2"};
         String[] expressions = {"(2+x)*cos(x)", "7+4", "7+x", "x+7", "7-x", "x-9", "3-6", "x*37",
                                 "12*x", "sin(x)", "cos(x)", "euler(x)", "euler(cos(x*x))",
-                                "(sin(x)*cos(x)*euler(x))"};
+                                "(sin(x)*cos(x)*euler(x))", "x", "2"};
         String[] derivatives = {"cos(x)-(x+2)*sin(x)", "0", "1", "1", "-1", "1", "0", "37", "12", "cos(x)",
                                 "-sin(x)", "euler(x)", "-2*x*sin(x*x)*euler(cos(x*x))",
-                                "(0.5)*euler(x)*(sin(2*x)+2*cos(2*x))"};
+                                "(0.5)*euler(x)*(sin(2*x)+2*cos(2*x))", "1", "0"};
         boolean failed = false; // boolean that will be set to true if one of the tests failed
         System.out.println("Checking evaluate method and evaluate method after using differentiate.");
         // Loop through each expression
