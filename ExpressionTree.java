@@ -348,10 +348,11 @@ class ExpressionTree {
             System.out.println("Evaluated answer: " + e.evaluate(x));
         } */
         
-        ExpressionTree f = new ExpressionTree("exp(mult(2,x))");
+        ExpressionTree f = new ExpressionTree("mult(sin(x),mult(cos(x),exp(x)))");
         System.out.println(f);
-        double x = 5;
+        double x = 13.39664737826625;
         ExpressionTree fdiff = f.differentiate();
+        System.out.println("Evaluated answer: " + f.evaluate(x));
         System.out.println("Differentiated answer: " + fdiff);
         System.out.println("Evaluate diff. answer (@ x = " + x + ") : " + fdiff.evaluate(x));
    
