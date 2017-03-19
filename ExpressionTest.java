@@ -37,14 +37,14 @@ public class ExpressionTest {
                 failed = true;
             }
             // Now we want to differentiate
-            /* String derived = mathify(derivatives[i],x);
+            String derived = mathify(derivatives[i],x);
             current = e.differentiate().evaluate(x); //Differentiate then evaluate
             answer = evalStr(derived);
             System.out.println("Derived:");
             result(derivatives[i], current, answer, x);
             if (!approx(current, answer)){
                 failed = true;
-            } */
+            }
             System.out.println("----------------------------------------------------------------------------------");
         }
         // out of loop now
