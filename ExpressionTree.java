@@ -229,7 +229,15 @@ class ExpressionTree {
 	// WRITE YOUR CODE HERE
         ExpressionTree diff = this.deepCopy();
 
-        // this forms the base case
+        /* this forms the base case - 
+                tree for x              differentiated tree for x
+                    x                               1
+
+                tree for c              differentiated tree for c
+                    c                               0
+
+            where c is a constant */
+            
         if (diff.getLeftChild() == null && diff.getRightChild() == null) {
             String baseVal = diff.getValue();
         
@@ -252,7 +260,21 @@ class ExpressionTree {
         }
 
 
-        // this is the case if we are using add or minus
+        /* this is the case if we are using add or minus - 
+                tree for add            differentiated tree for add
+                    +                               +
+                  /   \                           /   \
+                 c   f(x)                       (c)'  f'(x)
+
+                tree for minus          differentiated tree for minus
+                    -                               -
+                  /   \                           /   \
+                 c   f(x)                       (c)'  f'(x)
+
+            where f'(x) denotes differentiation of f(x)
+                  c is a constant
+                  (c)' denotes differentiation of c */
+
         if(diff.getValue().equals("add") || diff.getValue().equals("minus")) {
             ExpressionTree left = diff.getLeftChild().differentiate();
             diff.setLeftChild(left);
@@ -262,8 +284,18 @@ class ExpressionTree {
         }
 	    
 
-        // this is the case if we are using mult
-        // sample used here is '7x'
+        /* this is the case if we are using mult - 
+                tree for mult           differentiated tree for mult
+                    *                                +
+                  /   \                           /     \
+                 c   f(x)                       *        *
+                                               /  \     /  \
+                                              c f'(x)  f(x) (c)'
+            
+            where f'(x) denotes differentiation of f(x)
+                  c is a constant
+                  (c)' denotes differentiation of c */
+
         else if(diff.getValue().equals("mult")) {
             ExpressionTree leftHalf = diff.getLeftChild().deepCopy();
             ExpressionTree rightHalf = diff.getRightChild().deepCopy();
@@ -280,7 +312,27 @@ class ExpressionTree {
         }
                              
         
-        // this is the case if we are using cos or sin
+        /* this is the case if we are using cos or sin - 
+                tree for cos        differentiated tree for cos
+                    cos                         -
+                     |                        /   \ 
+                    f(x)                     0     *
+                                                 /   \
+                                                sin  f'(x)
+                                                 |
+                                                f(x)
+
+                tree for sin       differentiated tree for sin
+                    sin                         +
+                     |                        /   \ 
+                    f(x)                     0     *
+                                                 /   \
+                                                cos  f'(x)
+                                                 |
+                                                f(x)
+
+            f'(x) denotes differentiation of f(x) */
+
         else if(diff.getValue().equals("cos") || diff.getValue().equals("sin")) {
             boolean isCos;
             ExpressionTree expression = diff.getLeftChild().deepCopy();
@@ -315,7 +367,16 @@ class ExpressionTree {
         }
 
 
-        // this is the case for exp
+        /* this is the case for exp - 
+            tree for exp      differentiated tree for exp
+            exp                         * 
+             |                        /   \
+            f(x)                     exp  f'(x)
+                                      |
+                                     f(x)
+            
+            f'(x) denotes differentiation of f(x) */
+
         else {
             ExpressionTree exponential = diff.deepCopy();
             diff.setValue("mult");
