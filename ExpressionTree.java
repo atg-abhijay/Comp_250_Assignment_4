@@ -227,28 +227,33 @@ class ExpressionTree {
        original expression */
     ExpressionTree differentiate() {
 	// WRITE YOUR CODE HERE
-    ExpressionTree diff = this.deepCopy();
-    if (diff.getLeftChild() == null && diff.getRightChild() == null) {
-        String baseVal = diff.getValue();
+        ExpressionTree diff = this.deepCopy();
+        if (diff.getLeftChild() == null && diff.getRightChild() == null) {
+            String baseVal = diff.getValue();
         
-        if (baseVal.equals("x")) {
-            diff.setValue("1");
-            return diff;
-        }
-
-        else {
-            try{
-                double value = Double.parseDouble(baseVal);
-                diff.setValue("0");
+            if (baseVal.equals("x")) {
+                diff.setValue("1");
                 return diff;
             }
-            catch(NumberFormatException e) {
-                return diff;
+
+            else {
+                try{
+                    double value = Double.parseDouble(baseVal);
+                    diff.setValue("0");
+                    return diff;
+                }
+                catch(NumberFormatException e) {
+                    return diff;
+                }
             }
+
         }
 
-    }
-	// AND CHANGE THIS RETURN STATEMENT                        
+        ExpressionTree left = diff.getLeftChild().differentiate();
+        diff.setLeftChild(left);
+        ExpressionTree right = diff.getRightChild().differentiate();
+        diff.setRightChild(right);
+	    // AND CHANGE THIS RETURN STATEMENT                        
         return diff;
     }
         
@@ -261,16 +266,21 @@ class ExpressionTree {
 
         /* samples: mult(add(2,x),cos(x)); x = 6;       Answer: 7.6813622932
                     mult(minus(4,x),add(5,x)); x = 6;   Answer: -22.0
-                    cos(x); x = 6;                      Answer: 0.96017028665
+                    //cos(x); x = 6;                      Answer: 0.96017028665
                     cos(add(5,x)); x = 6;               Answer: 0.00442569798
                     add(6,cos(add(5,x))); x = 6;        Answer: 6.00442569798*/
-        ExpressionTree e = new ExpressionTree("9");
-        System.out.println(e);
+        /* String[] samples = {"mult(add(2,x),cos(x))", "mult(minus(4,x),add(5,x))", "cos(add(5,x))", "add(6,cos(add(5,x)))"};
         double x = 6;
         System.out.println("@ x = " + x);
-        System.out.println("Evaluated answer: " + e.evaluate(x));
-    
-        System.out.println("Differentiated answer: " + e.differentiate());
+        for (int i = 0; i < samples.length; i++) {
+            ExpressionTree e = new ExpressionTree(samples[i]);
+            System.out.println(e);
+            System.out.println("Evaluated answer: " + e.evaluate(x));
+        } */
+        
+        ExpressionTree f = new ExpressionTree("add(10,x)");
+        System.out.println(f);
+        System.out.println("Differentiated answer: " + f.differentiate());
    
  }
 }
