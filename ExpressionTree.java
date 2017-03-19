@@ -114,7 +114,7 @@ class ExpressionTree {
     double evaluate(double x) {
 	// WRITE YOUR CODE HERE
         
-        /* we copy the string expresssion so
+        /* we copy the string expression so
             that we can replace all the characters 'x'
             with the actual value of 'x' */ 
         String expr = this.toString();
@@ -228,6 +228,8 @@ class ExpressionTree {
     ExpressionTree differentiate() {
 	// WRITE YOUR CODE HERE
         ExpressionTree diff = this.deepCopy();
+
+        // this forms the base case
         if (diff.getLeftChild() == null && diff.getRightChild() == null) {
             String baseVal = diff.getValue();
         
@@ -249,6 +251,8 @@ class ExpressionTree {
 
         }
 
+
+        // this is the case if we are using add or minus
         if(diff.getValue().equals("add") || diff.getValue().equals("minus")) {
             ExpressionTree left = diff.getLeftChild().differentiate();
             diff.setLeftChild(left);
@@ -256,8 +260,11 @@ class ExpressionTree {
             diff.setRightChild(right);
             return diff;
         }
-	    // AND CHANGE THIS RETURN STATEMENT
-        if(diff.getValue().equals("mult")) {
+	    
+
+        // this is the case if we are using mult
+        // sample used here is '7x'
+        else if(diff.getValue().equals("mult")) {
             ExpressionTree leftHalf = diff.getLeftChild().deepCopy();
             ExpressionTree rightHalf = diff.getRightChild().deepCopy();
             diff.setValue("add");
@@ -271,9 +278,43 @@ class ExpressionTree {
             diff.setLeftChild(leftMultiply); diff.setRightChild(rightMultiply);
             return diff;
         }
-        return diff;                     
+                             
         
+        // this is the case if we are using cos or sin
+        else if(diff.getValue().equals("cos") || diff.getValue().equals("sin")) {
+            boolean isCos;
+            ExpressionTree expression = diff.getLeftChild().deepCopy();
+            if(diff.getValue().equals("cos")) {
+                diff.setValue("minus");
+                isCos = true;
+            }
+            else {
+                diff.setValue("add");
+                isCos = false;
+            }
+            ExpressionTree zero = new ExpressionTree();
+            ExpressionTree multiply = new ExpressionTree();
+            zero.setValue("0"); multiply.setValue("mult");
+            diff.setLeftChild(zero); diff.setRightChild(multiply);
 
+            ExpressionTree diffOfExpression = expression.differentiate();
+            diff.getRightChild().setRightChild(diffOfExpression);
+            if(isCos) {
+                ExpressionTree sine = new ExpressionTree();
+                sine.setValue("sin");
+                sine.setLeftChild(expression);
+                diff.getRightChild().setLeftChild(sine);
+            }
+            else {
+                ExpressionTree cosine = new ExpressionTree();
+                cosine.setValue("cos");
+                cosine.setLeftChild(expression);
+                diff.getRightChild().setLeftChild(cosine);
+            }
+            return diff;
+        }
+
+        return diff;
 
     }
         
@@ -298,7 +339,7 @@ class ExpressionTree {
             System.out.println("Evaluated answer: " + e.evaluate(x));
         } */
         
-        ExpressionTree f = new ExpressionTree("mult(add(7,x),minus(x,10))");
+        ExpressionTree f = new ExpressionTree("cos(mult(4,x))");
         System.out.println(f);
         double x = 5;
         ExpressionTree fdiff = f.differentiate();
