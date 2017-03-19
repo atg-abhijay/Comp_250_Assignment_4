@@ -97,7 +97,7 @@ public class Testing {
             oneLevelG = true;
         }
         if(oneLevelF && oneLevelG) {
-
+            
             String fLeft = f.getLeftChild().getValue();
             String fRight = f.getRightChild().getValue();
 
@@ -132,6 +132,9 @@ public class Testing {
         }
 
         //System.out.println("\nYay!");
+        if(!f.getValue().equals(g.getValue())) {
+                return false;
+        }
         return true;
     }
 }
