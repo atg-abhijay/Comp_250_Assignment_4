@@ -314,7 +314,16 @@ class ExpressionTree {
             return diff;
         }
 
-        return diff;
+
+        // this is the case for exp
+        else {
+            ExpressionTree exponential = diff.deepCopy();
+            diff.setValue("mult");
+            diff.setLeftChild(exponential);
+            ExpressionTree diffOfExponentialFunc = exponential.getLeftChild().differentiate();
+            diff.setRightChild(diffOfExponentialFunc);
+            return diff;
+        }
 
     }
         
@@ -339,7 +348,7 @@ class ExpressionTree {
             System.out.println("Evaluated answer: " + e.evaluate(x));
         } */
         
-        ExpressionTree f = new ExpressionTree("cos(mult(4,x))");
+        ExpressionTree f = new ExpressionTree("exp(mult(2,x))");
         System.out.println(f);
         double x = 5;
         ExpressionTree fdiff = f.differentiate();
