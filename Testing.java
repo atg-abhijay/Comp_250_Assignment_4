@@ -1,4 +1,5 @@
 import java.lang.Math.*;
+import java.util.*;
 
 public class Testing {
     public static void main(String[] args) {
@@ -63,14 +64,16 @@ public class Testing {
         }
         System.out.println("Hooray! We are done!"); */
 
-        ExpressionTree f = new ExpressionTree("5(8(2,6(3,2)),4)"); //5(8(2,6(3,2)),4)
-        ExpressionTree g = new ExpressionTree("5(4,8(6(3,2),2))"); //5(4,8(6(3,2),2))
+        Scanner reader = new Scanner(System.in);
+        ExpressionTree f = new ExpressionTree(reader.next()); //5(8(2,6(3,2)),4) , 5(4,8(6(3,2),2))
+        ExpressionTree g = new ExpressionTree(reader.next()); 
         
         System.out.println("\n" + isomorphic(f,g));
 
     }
 
     public static boolean isomorphic(ExpressionTree f, ExpressionTree g) {
+        System.out.println();
         System.out.println(f);
         System.out.println(g);
         
@@ -128,7 +131,7 @@ public class Testing {
             }
         }
 
-        System.out.println("\nYay!");
+        //System.out.println("\nYay!");
         return true;
     }
 }
