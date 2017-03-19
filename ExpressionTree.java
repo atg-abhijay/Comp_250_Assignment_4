@@ -249,12 +249,32 @@ class ExpressionTree {
 
         }
 
-        ExpressionTree left = diff.getLeftChild().differentiate();
-        diff.setLeftChild(left);
-        ExpressionTree right = diff.getRightChild().differentiate();
-        diff.setRightChild(right);
-	    // AND CHANGE THIS RETURN STATEMENT                        
-        return diff;
+        if(diff.getValue().equals("add") || diff.getValue().equals("minus")) {
+            ExpressionTree left = diff.getLeftChild().differentiate();
+            diff.setLeftChild(left);
+            ExpressionTree right = diff.getRightChild().differentiate();
+            diff.setRightChild(right);
+            return diff;
+        }
+	    // AND CHANGE THIS RETURN STATEMENT
+        if(diff.getValue().equals("mult")) {
+            ExpressionTree leftHalf = diff.getLeftChild().deepCopy();
+            ExpressionTree rightHalf = diff.getRightChild().deepCopy();
+            diff.setValue("add");
+            ExpressionTree leftMultiply = new ExpressionTree();
+            ExpressionTree rightMultiply = new ExpressionTree();
+            leftMultiply.setValue("mult"); rightMultiply.setValue("mult");
+
+            leftMultiply.setLeftChild(leftHalf); leftMultiply.setRightChild(rightHalf.differentiate());
+            rightMultiply.setLeftChild(rightHalf); rightMultiply.setRightChild(leftHalf.differentiate());
+
+            diff.setLeftChild(leftMultiply); diff.setRightChild(rightMultiply);
+            return diff;
+        }
+        return diff;                     
+        
+
+
     }
         
     
@@ -278,9 +298,12 @@ class ExpressionTree {
             System.out.println("Evaluated answer: " + e.evaluate(x));
         } */
         
-        ExpressionTree f = new ExpressionTree("add(10,x)");
+        ExpressionTree f = new ExpressionTree("mult(add(7,x),minus(x,10))");
         System.out.println(f);
-        System.out.println("Differentiated answer: " + f.differentiate());
+        double x = 5;
+        ExpressionTree fdiff = f.differentiate();
+        System.out.println("Differentiated answer: " + fdiff);
+        System.out.println("Evaluate diff. answer (@ x = " + x + ") : " + fdiff.evaluate(x));
    
  }
 }
