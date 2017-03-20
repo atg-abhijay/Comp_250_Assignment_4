@@ -73,7 +73,8 @@ public class Testing {
         ExpressionTree traversal = new ExpressionTree("7(3(2(1,42),6),41(8(43),9))");
         //weirdPreOrder(traversal);
         //weirdPostOrder(traversal);
-        queueTraversal(traversal);
+        //queueTraversal(traversal);
+        stackTraversal(traversal);
 
 
     }
@@ -171,6 +172,21 @@ public class Testing {
             }
             if(x.getRightChild() != null) {
                 q.addLast(x.getRightChild());
+            }
+        }
+    }
+
+    public static void stackTraversal(ExpressionTree n) {
+        Stack<ExpressionTree> s = new Stack<ExpressionTree>();
+        s.push(n);
+        while(!s.empty()) {
+            ExpressionTree x = s.pop();
+            System.out.print(x.getValue() + " ");
+            if (x.getRightChild() != null) {
+                s.push(x.getRightChild());
+            }
+            if (x.getLeftChild() != null) {
+                s.push(x.getLeftChild());
             }
         }
     }
