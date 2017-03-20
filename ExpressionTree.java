@@ -415,6 +415,91 @@ class ExpressionTree {
         }
 
     }
+
+    /* I am including my code for Q4 about Tree Isomorphism here
+        because the pseudocode might be hard to read with all the
+        indentations and stuff. I have tested this code and it works
+        
+        Should return true for : 5(8(2,6(3,2)),4)
+                                 5(4,8(6(3,2),2))
+
+        Should return false for : 5(8(2,3(6,2)),4)
+                                  5(4,8(6(3,2),2)) */
+    public static boolean isomorphic(ExpressionTree f, ExpressionTree g) {
+        System.out.println();
+        System.out.println(f);
+        System.out.println(g);
+        
+        /* if one of the nodes doesn't have any
+            children, we compare the values of
+            those two nodes */
+        if (f.getLeftChild() == null || g.getLeftChild() == null) {
+            if(!f.getValue().equals(g.getValue())) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        
+        boolean oneLevelF = false;
+        if (f.getLeftChild().getLeftChild() == null) {
+            oneLevelF = true;
+        }
+
+        boolean oneLevelG = false;
+        if (g.getLeftChild().getLeftChild() == null) {
+            oneLevelG = true;
+        }
+
+        /* if the trees are of the form
+                    k1             k4
+                   /  \           /  \
+                  k2  k3         k5  k6 
+
+            where k1, k2 ... k6 are numbers */
+
+        if(oneLevelF && oneLevelG) {
+            
+            String fLeft = f.getLeftChild().getValue();
+            String fRight = f.getRightChild().getValue();
+
+            String gLeft = g.getLeftChild().getValue();
+            String gRight = g.getRightChild().getValue();
+
+            boolean switched = fLeft.equals(gRight) && fRight.equals(gLeft);
+            boolean same = fLeft.equals(gLeft) && fRight.equals(gRight);
+            if(!(switched || same)) {
+                return false;
+            }
+        }
+        
+        /* if the trees have more than one level */
+        else {
+            ExpressionTree fLeftBranch = f.getLeftChild().deepCopy();
+            ExpressionTree gLeftBranch = g.getLeftChild().deepCopy();
+
+            ExpressionTree fRightBranch = f.getRightChild().deepCopy();
+            ExpressionTree gRightBranch = g.getRightChild().deepCopy();
+
+            if (!(isomorphic(fLeftBranch, gLeftBranch) || isomorphic(fLeftBranch, gRightBranch))) {
+                return false;
+            }
+            
+
+            if(!(isomorphic(fRightBranch, gRightBranch) || isomorphic(fRightBranch, gLeftBranch))) {
+                return false;
+            }
+        }
+
+        /* before exiting, we check if the roots of
+            the entire trees are the same or not */
+        if(!f.getValue().equals(g.getValue())) {
+            return false;
+        }
+        return true;
+    }
         
     
     public static void main(String args[]) {
