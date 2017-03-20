@@ -64,11 +64,17 @@ public class Testing {
         }
         System.out.println("Hooray! We are done!"); */
 
-        Scanner reader = new Scanner(System.in);
+        /* Scanner reader = new Scanner(System.in);
         ExpressionTree f = new ExpressionTree(reader.next()); //6(5(8(2,6(3,2)),4),1) 6(1,5(4,8(6(3,2),2)))
         ExpressionTree g = new ExpressionTree(reader.next()); 
         
-        System.out.println("\n" + isomorphic(f,g));
+        System.out.println("\n" + isomorphic(f,g)); */
+
+        ExpressionTree traversal = new ExpressionTree("7(3(2(1,42),6),41(8(43),9))");
+        //weirdPreOrder(traversal);
+        //weirdPostOrder(traversal);
+        queueTraversal(traversal);
+
 
     }
 
@@ -136,5 +142,36 @@ public class Testing {
                 return false;
         }
         return true;
+    }
+
+    public static void weirdPreOrder(ExpressionTree n) {
+        if(n != null) {
+            System.out.print(n.getValue() + " ");
+            weirdPreOrder(n.getRightChild());
+            weirdPostOrder(n.getLeftChild());
+        }
+    }
+
+    public static void weirdPostOrder(ExpressionTree n) {
+        if(n != null) {
+            weirdPreOrder(n.getRightChild());
+            weirdPostOrder(n.getLeftChild());
+            System.out.print(n.getValue() + " ");
+        }
+    }
+
+    public static void queueTraversal(ExpressionTree n) {
+        Queue<ExpressionTree> q = new Queue<ExpressionTree>();
+        q.enqueue(n);
+        while(!q.empty()) {
+            ExpressionTree x = q.dequeue();
+            System.out.print(x.getValue() + " ");
+            if(x.getLeftChild() != null) {
+                q.enqueue(x.getLeftChild());
+            }
+            if(x.getRightChild() != null) {
+                q.enqueue(x.getRightChild());
+            }
+        }
     }
 }
