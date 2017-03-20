@@ -64,13 +64,14 @@ public class Testing {
         }
         System.out.println("Hooray! We are done!"); */
 
-        /* Scanner reader = new Scanner(System.in);
+        Scanner reader = new Scanner(System.in);
         ExpressionTree f = new ExpressionTree(reader.next()); //6(5(8(2,6(3,2)),4),1) 6(1,5(4,8(6(3,2),2)))
         ExpressionTree g = new ExpressionTree(reader.next()); 
         
-        System.out.println("\n" + isomorphic(f,g)); */
+        System.out.println("\n" + isomorphic(f,g));
 
-        ExpressionTree traversal = new ExpressionTree("7(3(2(1,42),6),41(8(43),9))");
+        //ExpressionTree traversal = new ExpressionTree("7(3(2(1,42),6),41(8(43),9))");
+        ExpressionTree traversal = new ExpressionTree("7(3(2(1,2),6),9(8(7),9))");
         //weirdPreOrder(traversal);
         //weirdPostOrder(traversal);
         //queueTraversal(traversal);
@@ -84,6 +85,9 @@ public class Testing {
         System.out.println(f);
         System.out.println(g);
         
+        /* if one of the nodes doesn't have any
+            children, we compare the values of
+            those two nodes */
         if (f.getLeftChild() == null || g.getLeftChild() == null) {
             if(!f.getValue().equals(g.getValue())) {
                 //System.out.println("\nUnequal at top");
@@ -94,6 +98,7 @@ public class Testing {
             }
         }
 
+        
         boolean oneLevelF = false;
         if (f.getLeftChild().getLeftChild() == null) {
             oneLevelF = true;
@@ -103,6 +108,14 @@ public class Testing {
         if (g.getLeftChild().getLeftChild() == null) {
             oneLevelG = true;
         }
+
+        /* if the trees are of the form
+                    k1             k4
+                   /  \           /  \
+                  k2  k3         k5  k6 
+
+            where k1, k2 ... k6 are numbers */
+
         if(oneLevelF && oneLevelG) {
             
             String fLeft = f.getLeftChild().getValue();
@@ -138,7 +151,8 @@ public class Testing {
             }
         }
 
-        //System.out.println("\nYay!");
+        /* before exiting, we check if the roots of
+            the entire trees are the same or not */
         if(!f.getValue().equals(g.getValue())) {
                 return false;
         }
