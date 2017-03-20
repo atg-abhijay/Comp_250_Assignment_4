@@ -161,16 +161,16 @@ public class Testing {
     }
 
     public static void queueTraversal(ExpressionTree n) {
-        Queue<ExpressionTree> q = new Queue<ExpressionTree>();
-        q.enqueue(n);
-        while(!q.empty()) {
-            ExpressionTree x = q.dequeue();
+        LinkedList<ExpressionTree> q = new LinkedList<ExpressionTree>();
+        q.addLast(n);
+        while(!q.isEmpty()) {
+            ExpressionTree x = q.pollFirst();
             System.out.print(x.getValue() + " ");
             if(x.getLeftChild() != null) {
-                q.enqueue(x.getLeftChild());
+                q.addLast(x.getLeftChild());
             }
             if(x.getRightChild() != null) {
-                q.enqueue(x.getRightChild());
+                q.addLast(x.getRightChild());
             }
         }
     }
