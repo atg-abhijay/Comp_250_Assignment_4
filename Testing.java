@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Testing {
     public static void main(String[] args) {
-        /* String[] expressions = {"sin(x)*cos(x)*e^(x)", "(2+x)*cos(x)", "euler(cos(x*x))"};
+        String[] expressions = {"sin(x)*cos(x)*e^(x)", "(2+x)*cos(x)", "euler(cos(x*x))"};
         String[] input = {"mult(sin(x),mult(cos(x),exp(x)))", "mult(add(2,x),cos(x))", "exp(cos(mult(x,x)))"};
         String[] derivatives = {"(0.5)*euler(x)*(sin(2*x)+2*cos(2*x))", "cos(x)-(x+2)*sin(x)", "-2*x*sin(x*x)*euler(cos(x*x))"};
         
@@ -37,14 +37,14 @@ public class Testing {
                 else if (p == 2) {
                     calculated = Math.exp(Math.cos(x*x));
                     diffCalc = Math.exp(Math.cos(x*x))*(-Math.sin(x*x))*(2*x);
-                } */
+                }
 
                 
                 /* int boozoo = 0;
                 if (i == 20) {
                     boozoo = 2350;
                 } */
-                /* System.out.println(i+1 + ".");
+                System.out.println(i+1 + ".");
                 System.out.println("x = " + x);
                 System.out.println("A, C \t\t" + answer + "\t" + calculated);
                 System.out.println("DiffA, DiffC \t" + diffAnswer + "\t" + diffCalc);
@@ -62,9 +62,9 @@ public class Testing {
             }
             System.out.println("We were able to reach the end!\n\n");
         }
-        System.out.println("Hooray! We are done!"); */
+        System.out.println("Hooray! We are done!");
 
-        Scanner reader = new Scanner(System.in);
+        /* Scanner reader = new Scanner(System.in);
         ExpressionTree f = new ExpressionTree(reader.next()); //6(5(8(2,6(3,2)),4),1) 6(1,5(4,8(6(3,2),2)))
         ExpressionTree g = new ExpressionTree(reader.next()); 
         
@@ -75,7 +75,7 @@ public class Testing {
         //weirdPreOrder(traversal);
         //weirdPostOrder(traversal);
         //queueTraversal(traversal);
-        stackTraversal(traversal);
+        stackTraversal(traversal); */
 
 
     }
@@ -151,7 +151,7 @@ public class Testing {
         /* before exiting, we check if the roots of
             the entire trees are the same or not */
         if(!f.getValue().equals(g.getValue())) {
-                return false;
+            return false;
         }
         return true;
     }
